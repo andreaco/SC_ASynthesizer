@@ -28,13 +28,14 @@ public class SliderTable {
     else {
       float relativeYPos = (mouseY - topLeftY) / tableHeight;
       float subSliderOffset = (subSliderIndex * subSliderSize);
+      float startY = topLeftY;
+      float endY   = topLeftY + tableHeight;
       
       for (int i = 0; i < numSliders; ++i) {
-        float startX = topLeftX + i       * subSliderSize * numSubSliders + subSliderOffset;
+        float startX = topLeftX + i * subSliderSize * numSubSliders + subSliderOffset;
         float endX   = startX + subSliderSize;
         
-      
-        if (mousePressed && isInRange(mouseX, startX, endX)) {
+        if (mousePressed && isInRange(mouseX, startX, endX) && isInRange(mouseY, startY, endY)) {
           array[i] = 1 - relativeYPos;
           array[i] = constrain(array[i], 0, 1);
         }
