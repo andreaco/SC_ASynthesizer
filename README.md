@@ -6,8 +6,7 @@ From the GUI it's possible to control amplitude, attack and release of 8 formant
 
 ## Processing Graphical User Interface
 
-
-![GUI](imgs/GUI.png)  
+<img align="center" src="imgs/GUI.gif" alt="GUI">
 
 ***
 
