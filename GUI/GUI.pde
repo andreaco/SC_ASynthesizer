@@ -43,6 +43,7 @@ PFont customFont;
 
 void settings() {
   // Processing settings
+  
   size(1200, 600, P2D);
   smooth(24);
 }

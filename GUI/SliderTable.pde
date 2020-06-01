@@ -28,6 +28,7 @@ public class SliderTable {
     else {
       float relativeYPos = (mouseY - topLeftY) / tableHeight;
       float subSliderOffset = (subSliderIndex * subSliderSize);
+      
       float startY = topLeftY;
       float endY   = topLeftY + tableHeight;
       
@@ -35,7 +36,9 @@ public class SliderTable {
         float startX = topLeftX + i * subSliderSize * numSubSliders + subSliderOffset;
         float endX   = startX + subSliderSize;
         
-        if (mousePressed && isInRange(mouseX, startX, endX) && isInRange(mouseY, startY, endY)) {
+        // We are setting a little margin on top and bottom for the control (20 px)
+        // (they will be contrained between 0, 1 anyway, but else it would be difficult to set the value to max or min)
+        if (mousePressed && isInRange(mouseX, startX, endX) && isInRange(mouseY, startY - 20, endY + 20)) {
           array[i] = 1 - relativeYPos;
           array[i] = constrain(array[i], 0, 1);
         }
