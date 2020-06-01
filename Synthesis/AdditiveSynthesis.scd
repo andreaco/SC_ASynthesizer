@@ -22,11 +22,11 @@ SynthDef.new(\sinusoids, {
 
     env = EnvGen.kr(Env.adsr(atks, 0.3, 0.5, rels), gate: gate);
     sig = Mix.ar(env * (SinOsc.ar(freq: freq * freqs, mul: amps)));
-    sig = sig * vel.linexp(1, 127, 0.1, 0.9);
+    sig = sig * vel.linexp(1, 127, 0.01, 0.9);
 
     Out.ar(effectBus, sig * vol);
 
-    DetectSilence.ar(sig, amp: 0.01,time: 0.2, doneAction: Done.freeSelf);
+    FreeSelf.kr(DetectSilence.ar(sig, amp: 0.01, time: 0.1));
 
 }).send(s);
 
@@ -44,7 +44,6 @@ SynthDef.new(\reverb, {
 )
 
 (
-s.plotTree;
 // Midi Init
 MIDIClient.init;
 MIDIIn.connectAll;
@@ -54,13 +53,12 @@ MIDIIn.connectAll;
 
 ~notes = Array.newClear(128);
 
-b = Bus.audio(s,1);
+b = Bus.audio(s, 1);
 
 x = Synth.new("reverb", [\inBus, b]);
 
 )
-s.plotTree
-
+//s.plotTree;
 
 
 // CONTROL
@@ -100,8 +98,8 @@ var releaseOSCReceive = {
 	|msg|
 	~notes.do({arg item, num;
 		if(item != nil, {
-			~notes[num].set(\rel0, msg[1], \rel1, msg[2], \rel2, msg[3], \rel3, msg[4]);
-			~notes[num].set(\rel4, msg[5], \rel5, msg[6], \rel6, msg[7], \rel7, msg[8]);
+			item.set(\rel0, msg[1], \rel1, msg[2], \rel2, msg[3], \rel3, msg[4]);
+			item.set(\rel4, msg[5], \rel5, msg[6], \rel6, msg[7], \rel7, msg[8]);
 		});
 	});
 };
@@ -111,8 +109,8 @@ var harmonicOSCReceive = {
 	|msg|
 	~notes.do({arg item, num;
 		if(item != nil, {
-			~notes[num].set(\amp0, msg[1], \amp1, msg[2], \amp2, msg[3], \amp3, msg[4]);
-			~notes[num].set(\amp4, msg[5], \amp5, msg[6], \amp6, msg[7], \amp7, msg[8]);
+			item.set(\amp0, msg[1], \amp1, msg[2], \amp2, msg[3], \amp3, msg[4]);
+			item.set(\amp4, msg[5], \amp5, msg[6], \amp6, msg[7], \amp7, msg[8]);
 		});
 	});
 };
@@ -121,7 +119,7 @@ var paramOSCReceive = {
 	|msg|
 	~notes.do({arg item, num;
 		if(item != nil, {
-			~notes[num].set(\vol, msg[1]);
+			item.set(\vol, msg[1]);
 		});
 	});
 	x.set(\mix, msg[2], \room, msg[3], \pan, (msg[4]*2)-1);

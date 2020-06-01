@@ -62,12 +62,14 @@ void setup() {
   
   
   // OSC Settings
-  
-  //String SCHAMACHIADDRESS = "25.53.229.113";
-  //oscP5 = new OscP5(this, SCHAMACHIADDRESS, 57120, NetP5.UDP);
-  netAddress = new NetAddress("127.0.0.1", 57120);
+  // [SinglePlayer]
   oscP5 = new OscP5(this, 57120);
-  //netAddress = new NetAddress("127.0.0.1", 57120);
+  netAddress = new NetAddress("127.0.0.1", 57120);
+
+  // [MultiPlayer]
+  // String SCHAMACHIADDRESS = "0.0.0.0";
+  // oscP5 = new OscP5(this, SCHAMACHIADDRESS, 57120, NetP5.UDP);
+  // netAddress = new NetAddress(SCHAMACHIADDRESS, 57120);
   
   // Controls
   amplitude = new float[harmonicsSize];
